@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "dhnote"
+version = "1.0.0"
+description = "Library to deal with notes of the Dharmalib project"
+authors = ["Paul Pichaureau <paul.pichaureau@alcandre.net>"]
+readme = "README.md"
+
+[tool.poetry.scripts]
+dhnote-sort = "dhnote.cmdline:sort_header"
+dhnote-update = "dhnote.cmdline:update"
+dhnote-mergedir = "dhnote.merge_dir:merge_dir"
+
+
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pinyin = "^0.4.0"
+Unidecode = "^1.3.8"
+python-frontmatter = "^1.1.0"
+chinese-converter = "^1.1.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
