@@ -3,11 +3,11 @@ nom: Changsha Jingcen
 dates: ?-868
 maître: '[[Nansen]]'
 rōmaji: Chōsha Keishin
-rōmaji-simplified: Chosha Keishin
+rōmaji_simplified: Chosha Keishin
 hànzì: 長沙景岑
-hànzì-simplified: 长沙景岑
+hànzì_simplified: 长沙景岑
 pinyin: Chángshā Jǐngcén
-pinyin-simplified: Changsha Jingcen
+pinyin_simplified: Changsha Jingcen
 Wades-Giles: Ch’ang-sha Ching-ts’ên
 portrait: 三十九世岩头全奯禅师.webp
 sources:

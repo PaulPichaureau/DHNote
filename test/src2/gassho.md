@@ -1,11 +1,11 @@
 ---
 terme: gasshō
 hànzì: 合掌
-hànzì-simplified: 合掌
+hànzì_simplified: 合掌
 pinyin: hézhǎng
-pinyin-simplified: hezhang
+pinyin_simplified: hezhang
 rōmaji: gasshō
-rōmaji-simplified: gassho
+rōmaji_simplified: gassho
 tags: glossaire
 aliases: gassho
 ---

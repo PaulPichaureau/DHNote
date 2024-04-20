@@ -2,11 +2,11 @@
 tags: glossaire
 hànzì: 合掌
 pinyin: hézhǎng (more common to say 合十 héshí)
-pinyin-simplified: hezhang (more common to say He Shi  heshi)
+pinyin_simplified: hezhang (more common to say He Shi  heshi)
 rōmaji:
 - gasshō
 - 合掌 gasshō
-rōmaji-simplified:
+rōmaji_simplified:
 - gassho
 - He Zhang  gassho
 sanskrit: anjali

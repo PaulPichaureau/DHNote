@@ -3,11 +3,11 @@ terme:
 - shikantaza
 - shikan taza
 hànzì: 祗管打坐
-hànzì-simplified: 祗管打坐
+hànzì_simplified: 祗管打坐
 pinyin: zhīguǎndǎzuò
-pinyin-simplified: zhiguandazuo
+pinyin_simplified: zhiguandazuo
 rōmaji: shikan taza
-rōmaji-simplified: shikan taza
+rōmaji_simplified: shikan taza
 tags: glossaire
 aliases: shikan, shikan taza
 ---

@@ -1,7 +1,7 @@
 import logging
 import sys
 import argparse
-from .dharmalibnote import BasicDharmalibNote, Master, Terme, Document, Koan
+from .dharmalibnote import BasicDharmalibNote, Person, Term, Document, Koan
 
 # Les options
 
@@ -49,34 +49,39 @@ args = parser.parse_args(sys.argv[1:])
 
 logging.basicConfig(
     level=args.loglevel,
-    format="%(asctime)s [ObsidianNote] [%(levelname)-7.7s]  %(message)s",
-    handlers=[logging.FileHandler("ObsidianNote.log"), logging.StreamHandler()],
+    format="%(asctime)s [DHNote] [%(levelname)-7.7s]  %(message)s",
+    handlers=[logging.FileHandler("DHNote.log"), logging.StreamHandler()],
 )
 
 
 TAG2CLASS = {
-    "biographie": Master,
-    "glossaire": Terme,
-    "recueil": Document,
-    "texte": Document,
+    "person": Person,
+    "term": Term,
+    "compilation": Document,
+    "text": Document,
     "koan": Koan,
 }
 
 
 def load_note():
     if args.test:
-        return Master(args.note, fromfile=True)
+        return Person(args.note, fromfile=True)
 
     try:
         note = BasicDharmalibNote(args.note, fromfile=True)
-    except:
-        print("Impossible de charger la note")
+    except FileNotFoundError:
+        logging.critical("Impossible de charger la note : fichier non trouvé")
+        #     print("Impossible de charger la note")
         sys.exit(1)
+
+    # except:
+    #     print("Impossible de charger la note")
+    #     sys.exit(1)
 
     for k, v in TAG2CLASS.items():
         if k == note.metadata["tags"] or k in note.metadata["tags"]:
             return v(args.note, fromfile=True)
-    return Terme(args.note, fromfile=True)
+    return Term(args.note, fromfile=True)
 
 
 def sort_header():
@@ -90,5 +95,4 @@ def update():
     """compute some metadatas"""
     note = load_note()
     note.do_update()
-    note.addtotag("metadatas-updated")
     note.save(test=args.test)

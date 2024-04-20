@@ -3,7 +3,7 @@ tags: glossaire
 terme: eko
 hànzì: 囘向
 rōmaji: ekō
-rōmaji-simplified: eko
+rōmaji_simplified: eko
 ---
 
 →"dedicate merit." [^Sotoshu]

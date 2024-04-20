@@ -1,3 +1,4 @@
 .virtualenv
 .DS_Store
 dhnote/__pycache__
+DHNote.code-workspace

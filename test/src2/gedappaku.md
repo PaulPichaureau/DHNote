@@ -1,11 +1,11 @@
 ---
 terme: gedappaku
 hànzì: 解脱服
-hànzì-simplified: 解脱服
+hànzì_simplified: 解脱服
 pinyin: jiětuōfú
-pinyin-simplified: jietuofu
+pinyin_simplified: jietuofu
 rōmaji: gedappaku
-rōmaji-simplified: gedappaku
+rōmaji_simplified: gedappaku
 tags: glossaire
 aliases: gedappaku
 ---

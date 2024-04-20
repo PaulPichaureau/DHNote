@@ -1,11 +1,11 @@
 ---
 terme: ekō
 hànzì: 囘向
-hànzì-simplified: 囘向
+hànzì_simplified: 囘向
 pinyin: húixiàng
-pinyin-simplified: huixiang
+pinyin_simplified: huixiang
 rōmaji: ekō
-rōmaji-simplified: eko
+rōmaji_simplified: eko
 tags: glossaire
 aliases: eko
 ---

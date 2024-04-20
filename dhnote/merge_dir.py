@@ -2,7 +2,7 @@ import logging
 import os
 import sys
 import argparse
-from obsidiannote import ObsidianNote
+from obsidiannote import DHNote
 
 # Les options
 
@@ -71,8 +71,8 @@ args = parser.parse_args(sys.argv[1:])
 
 logging.basicConfig(
     level=args.loglevel,
-    format="%(asctime)s [ObsidianNote] [%(levelname)-7.7s]  %(message)s",
-    handlers=[logging.FileHandler("ObsidianNote.log"), logging.StreamHandler()],
+    format="%(asctime)s [DHNote] [%(levelname)-7.7s]  %(message)s",
+    handlers=[logging.FileHandler("DHNote.log"), logging.StreamHandler()],
 )
 
 
@@ -93,10 +93,8 @@ def merge_dir():
             if not os.path.exists(os.path.join(args.sourcedir2, entry.name)):
                 continue
             print(entry.name)
-            note1 = ObsidianNote(entry.path, fromfile=True)
-            note2 = ObsidianNote(
-                os.path.join(args.sourcedir2, entry.name), fromfile=True
-            )
+            note1 = DHNote(entry.path, fromfile=True)
+            note2 = DHNote(os.path.join(args.sourcedir2, entry.name), fromfile=True)
             note2.merge(note1)
 
             note2.path = os.path.join(args.destdir, entry.name)

@@ -1,7 +1,7 @@
 ---
 tags: glossaire
 rōmaji: 副堂 fukudō
-rōmaji-simplified: Fu Tang  fukudo
+rōmaji_simplified: Fu Tang  fukudo
 terme: fukudo
 ---
 

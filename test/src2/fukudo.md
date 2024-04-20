@@ -1,11 +1,11 @@
 ---
 terme: fukudo
 hànzì: 副堂
-hànzì-simplified: 副堂
+hànzì_simplified: 副堂
 pinyin: fùtáng
-pinyin-simplified: futang
+pinyin_simplified: futang
 rōmaji: fukudō
-rōmaji-simplified: fukudo
+rōmaji_simplified: fukudo
 tags: glossaire
 aliases: fukudo
 ---

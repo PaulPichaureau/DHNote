@@ -1,24 +1,24 @@
 import unittest
 from io import BytesIO
 
-from obsidiannote import ObsidianNote
+from obsidiannote import DHNote
 
 
-class ObsidianNoteTests(unittest.TestCase):
+class DHNoteTests(unittest.TestCase):
     def test_name(self):
-        n = ObsidianNote("test")
+        n = DHNote("test")
         self.assertEqual(n.filename, "test.md")
 
     def test_path(self):
-        n = ObsidianNote("test")
+        n = DHNote("test")
         self.assertEqual(n.path, "./test.md")
-        n = ObsidianNote("test", destdir="./toto/")
+        n = DHNote("test", destdir="./toto/")
         self.assertEqual(n.path, "./toto/test.md")
 
     def test_save_output(self):
         outfile = BytesIO()
 
-        n = ObsidianNote("test")
+        n = DHNote("test")
         n.metadata = {"a": 1, "b": 2, "c": [3, 4]}
         n.content = "Rien.\n"
 
@@ -33,11 +33,11 @@ class ObsidianNoteTests(unittest.TestCase):
         self.assertEqual(content, testcontent)
 
     def test_merge_metadata(self):
-        n = ObsidianNote("test")
+        n = DHNote("test")
         n.metadata = {"a": 1, "b": 2, "c": [3, 4], "d": [1, 2]}
         n.content = "Rien.\n"
 
-        m = ObsidianNote("test2")
+        m = DHNote("test2")
         m.metadata = {"a": 4, "e": 2, "c": 5, "d": [2, 4]}
         m.content = "Rien.\n"
 
@@ -48,17 +48,17 @@ class ObsidianNoteTests(unittest.TestCase):
         self.assertEqual(n.metadata, merged)
 
     def test_merge(self):
-        n = ObsidianNote("test")
+        n = DHNote("test")
         n.metadata = {"a": 1, "b": 2, "c": [3, 4], "d": [1, 2]}
         n.content = "Rien.\n"
 
-        m = ObsidianNote("test2")
+        m = DHNote("test2")
         m.metadata = {"a": 4, "e": 2, "c": 5, "d": [2, 4]}
         m.content = "Tout.\n"
 
         n.merge(m)
 
-        merged = ObsidianNote("test3")
+        merged = DHNote("test3")
         merged.metadata = {"a": [1, 4], "b": 2, "c": [3, 4, 5], "d": [1, 2, 4], "e": 2}
         merged.content = "Rien.\n\n---\n\nTout.\n"
         self.assertEqual(n, merged)

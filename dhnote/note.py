@@ -56,7 +56,7 @@ def merge_list(l1, l2):
     return list(l)
 
 
-class ObsidianNote:
+class DHNote:
     INLINE_LINK = r"\[([^\[\]]*)\]\((.*)\)"
 
     REF = r"\[(\^[^\[\]]*)\][^:(\[\]]"
@@ -137,7 +137,7 @@ class ObsidianNote:
 
     def __eq__(self, other):
         return (
-            isinstance(other, ObsidianNote)
+            isinstance(other, DHNote)
             and self.metadata == other.metadata
             and self.content.strip() == other.content.strip()
         )
@@ -163,14 +163,14 @@ class ObsidianNote:
         for k, v in self.metadata.items():
             if k in ["rōmaji", "pinyin", "pāli", "sanskrit"]:
                 if isinstance(v, list):
-                    newmetadata[f"{k}-simplified"] = list()
+                    newmetadata[f"{k}_simplified"] = list()
                     for _ in v:
                         if _ != unidecode(_):
-                            newmetadata[f"{k}-simplified"].append(unidecode(_))
-                    if not newmetadata[f"{k}-simplified"]:
-                        del newmetadata[f"{k}-simplified"]
+                            newmetadata[f"{k}_simplified"].append(unidecode(_))
+                    if not newmetadata[f"{k}_simplified"]:
+                        del newmetadata[f"{k}_simplified"]
                 elif v != unidecode(v):
-                    newmetadata[f"{k}-simplified"] = unidecode(v)
+                    newmetadata[f"{k}_simplified"] = unidecode(v)
         self.metadata.update(newmetadata)
 
     def get_header(self):
@@ -241,7 +241,7 @@ class ObsidianNote:
         self.merge_content(other)
 
     def save_with_merge(self, pathname):
-        other = ObsidianNote(pathname, fromfile=True)
+        other = DHNote(pathname, fromfile=True)
         other.merge(self)
         other.save(merge=False)
 
@@ -252,6 +252,6 @@ class ObsidianNote:
         #     self.save_with_merge(self.path, outfile=outfile)
         # else:
         if outfile is None:
-            outfile = open(os.path.join(self.path,self.filename), "wb")
+            outfile = open(os.path.join(self.path, self.filename), "wb")
             # outfile.write(str(self))
         frontmatter.dump(self, outfile, sort_keys=False)
