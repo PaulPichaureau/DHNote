@@ -16,6 +16,25 @@ class ON_YAMLHandler(frontmatter.YAMLHandler):
 {content}
 """
 
+    def export(self, metadata: dict[str, object], **kwargs: object) -> str:
+        """
+        Export metadata as YAML. This uses yaml.SafeDumper by default.
+        """
+
+        result = super().export(metadata, **kwargs).split("\n")
+
+        # Add 2 space before - for each identation
+        new_result = []
+        for l in result:
+            if l == "null":
+                continue
+            l_strip = l.lstrip()
+            if l_strip.startswith("-"):
+                l = "  " + l
+            new_result.append(l)
+
+        return "\n".join(new_result)
+
 
 def split(self, text):
     """
@@ -165,11 +184,11 @@ class DHNote:
                 if isinstance(v, list):
                     newmetadata[f"{k}_simplified"] = list()
                     for _ in v:
-                        if _ != unidecode(_):
+                        if (_ is not None) and (_ != unidecode(_)):
                             newmetadata[f"{k}_simplified"].append(unidecode(_))
                     if not newmetadata[f"{k}_simplified"]:
                         del newmetadata[f"{k}_simplified"]
-                elif v != unidecode(v):
+                elif (v is not None) and (v != unidecode(v)):
                     newmetadata[f"{k}_simplified"] = unidecode(v)
         self.metadata.update(newmetadata)
 

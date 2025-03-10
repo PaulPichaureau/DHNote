@@ -1,8 +1,8 @@
-from .note import DHNote
-from .dharmalibnote import Term
+# from .note import DHNote
+from .dharmalibnote import DharmalibNote
 
 name = "obsidiannote"
-__all__ = ["DHNote", "Terme"]
+__all__ = ["DharmalibNote"]
 
 
 def mergenotes(n1, n2):
@@ -26,7 +26,7 @@ A period of time following the death of Buddha when his followers, the arhats in
 example2 = """ Un essai \n\n"""
 
 if __name__ == "__main__":
-    n = DHNote("test")
+    n = DharmalibNote("test")
     n.content = example
 
     print(n)
@@ -42,6 +42,6 @@ if __name__ == "__main__":
 
     n.save()
 
-    m = DHNote("test")
+    m = DharmalibNote("test")
     m.content = example2
     m.save(merge=True)

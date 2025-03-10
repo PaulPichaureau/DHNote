@@ -1,7 +1,7 @@
 import unittest
 from io import BytesIO
 
-from obsidiannote import DHNote
+from dhnote import DHNote
 
 
 class DHNoteTests(unittest.TestCase):

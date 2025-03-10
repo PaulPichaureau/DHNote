@@ -3,10 +3,11 @@ import unidecode
 
 import pinyin
 import chinese_converter
+from datetime import datetime
 
 from .note import DHNote
 from .utils import (
-    H1regexp,
+    # H1regexp,
     map_listorstring,
     hanzi2name,
     first_defined_in_dict,
@@ -54,7 +55,7 @@ class DharmalibNote(BasicDharmalibNote):
         super().__init__(note, **kwargs)
 
         self.newfirst = None
-        self.addtotag(self.TAG)
+        # self.addtotag(self.TAG)
 
     def do_sort_header(self):
         self.update_aliases()
@@ -84,6 +85,8 @@ class DharmalibNote(BasicDharmalibNote):
         for m in HEADER_ORDER:
             if m in self.metadata and self.metadata[m] is None:
                 del self.metadata[m]
+
+        self.metadata["date"] = datetime.today().strftime("%Y-%m-%d")
 
         for m in ("rōmaji", "pinyin", "sanskrit", "pāli"):
             if m in self.metadata and self.metadata[m] is not None:

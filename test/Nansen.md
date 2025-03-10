@@ -3,7 +3,7 @@ Wades-Giles: Nan-ch’üan P’u-yüan
 dates: 748-835
 hànzì: 南泉普願
 hànzì_simplified: 南泉普願
-maître: '[[Baso]]'
+maître: Baso
 nom: Nanquan Puyuan
 pinyin: Nánquán Pǔyuàn
 pinyin_simplified: Nanquan Puyuan
@@ -11,7 +11,6 @@ pk: Nansen
 rōmaji: Nansen Fugan
 sources:
 - Ferguson2000
-tags: revu
 ---
 
 # Nansen Fugan (748-835)
