@@ -193,7 +193,7 @@ class DHNote:
         self.metadata.update(newmetadata)
 
     def get_header(self):
-        self.add_simplified_metadata()
+        # self.add_simplified_metadata()
         self.sort_metadata()
         s = ""
         if len(self.metadata):

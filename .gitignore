@@ -1,4 +1,16 @@
-.virtualenv
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# uv
+.venv/
+uv.lock
+
+# macOS
 .DS_Store
-dhnote/__pycache__
-DHNote.code-workspace
+
+# VSCode
+*.code-workspace

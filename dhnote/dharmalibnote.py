@@ -21,17 +21,12 @@ HEADER_ORDER = [
     "title",
     "french",
     "dates",
-    "date",
     "author",
     "master",
     "sanskrit",
-    "sanskrit_simplified",
     "hànzì",
-    "hànzì_simplified",
     "pinyin",
-    "pinyin_simplified",
     "rōmaji",
-    "rōmaji_simplified",
     "Wades-Giles",
     "portrait",
     "sources",
@@ -39,6 +34,7 @@ HEADER_ORDER = [
     "modified",
     "aliases",
     "tags",
+    "pubdate",
 ]
 
 
@@ -86,12 +82,10 @@ class DharmalibNote(BasicDharmalibNote):
             if m in self.metadata and self.metadata[m] is None:
                 del self.metadata[m]
 
-        self.metadata["date"] = datetime.today().strftime("%Y-%m-%d")
+        # self.metadata["date"] = datetime.today().strftime("%Y-%m-%d")
 
         for m in ("rōmaji", "pinyin", "sanskrit", "pāli"):
-            if m in self.metadata and self.metadata[m] is not None:
-                self.metadata[f"{m}_simplified"] = unidecode.unidecode(self.metadata[m])
-
+            print(m)
         if "hànzì" in self.metadata:
             print(self.metadata["hànzì"])
 
@@ -109,14 +103,14 @@ class DharmalibNote(BasicDharmalibNote):
                     self.metadata["pinyin"] = map_listorstring(
                         pinyin.get, self.metadata["hànzì"], delimiter=""
                     )
-                if "pinyin_simplified" not in self.metadata:
-                    self.metadata["pinyin_simplified"] = map_listorstring(
-                        pinyin.get, self.metadata["hànzì"], delimiter="", format="strip"
-                    )
+                # if "pinyin_simplified" not in self.metadata:
+                #     self.metadata["pinyin_simplified"] = map_listorstring(
+                #         pinyin.get, self.metadata["hànzì"], delimiter="", format="strip"
+                #     )
             except TypeError:
                 pass
 
-    KEYS_FOR_ALIASES = ("rōmaji_simplified", "pinyin_simplified", "sanskrit_simplified")
+    # KEYS_FOR_ALIASES = ("rōmaji_simplified", "pinyin_simplified", "sanskrit_simplified")
 
     def update_aliases(self):
         self.metadata["aliases"] = set()
@@ -163,7 +157,7 @@ class Person(DharmalibNote):
         "french",
         "sanskrit",
         "rōmaji",
-        "pinyin_simplified",
+        "pinyin",
     ]
     PRESERVED_METADATA = [
         "nom",
@@ -188,12 +182,13 @@ class Person(DharmalibNote):
 
         if "hànzì" in self.metadata:
             self.metadata["pinyin"] = hanzi2name(self.metadata["hànzì"])
-            self.metadata["pinyin_simplified"] = hanzi2name(
-                self.metadata["hànzì"], format="strip"
-            )
+            # self.metadata["pinyin_simplified"] = hanzi2name(
+            #     self.metadata["hànzì"], format="strip"
+            # )
 
         if name := first_defined_in_dict(
-            self.metadata, ["name", "pinyin_simplified", "rōmaji_simplified"]
+            self.metadata,
+            ["name", "sanskrit", "pinyin", "rōmaji"],
         ):
             self.metadata["name"] = name
 
@@ -238,9 +233,9 @@ class Term(DharmalibNote):
         "français",
         "sanskrit",
         "rōmaji",
-        "pinyin_simplified",
+        "pinyin",
     ]
-    KEYS_FOR_ALIASES = ("rōmaji_simplified", "sanskrit_simplified")
+    KEYS_FOR_ALIASES = ("rōmaji", "sanskrit")
     TAG = "term"
     PRESERVED_METADATA = [
         "titre",
@@ -253,7 +248,7 @@ class Term(DharmalibNote):
         super().update_header()
 
         if terme := first_defined_in_dict(
-            self.metadata, ["terme", "rōmaji", "français", "pinyin_simplified"]
+            self.metadata, ["terme", "rōmaji", "français", "pinyin"]
         ):
             self.metadata["terme"] = terme
 
@@ -266,7 +261,7 @@ class Document(DharmalibNote):
     PRESERVED_METADATA = [
         "titre",
     ]
-    KEYS_FOR_ALIASES = ("rōmaji_simplified", "pinyin_simplified", "sanskrit_simplified")
+    KEYS_FOR_ALIASES = ("rōmaji", "pinyin", "sanskrit")
 
     def __init__(self, note, **kwargs):
         super().__init__(note, **kwargs)
