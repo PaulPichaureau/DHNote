@@ -1,8 +1,8 @@
 from .note import DHNote
-from .dharmalibnote import Term
+from .dharmalibnote import Term, DharmalibNote
 
 name = "obsidiannote"
-__all__ = ["DHNote", "Terme"]
+__all__ = ["DHNote", "Term", "DharmalibNote"]
 
 
 def mergenotes(n1, n2):

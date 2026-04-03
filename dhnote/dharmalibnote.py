@@ -17,7 +17,6 @@ HEADER_ORDER = [
     "pk",
     "name",
     "term",
-    "title",
     "french",
     "dates",
     "date",
@@ -28,9 +27,7 @@ HEADER_ORDER = [
     "hànzì",
     "hànzì_simplified",
     "pinyin",
-    "pinyin_simplified",
     "rōmaji",
-    "rōmaji_simplified",
     "Wades-Giles",
     "portrait",
     "sources",
@@ -57,13 +54,13 @@ class DharmalibNote(BasicDharmalibNote):
         self.addtotag(self.TAG)
 
     def do_sort_header(self):
-        self.update_aliases()
+        # self.update_aliases()
         self.sort_header()
 
     def do_update(self):
         self.update_header()
         self.sort_header()
-        self.update_aliases()
+        # self.update_aliases()
 
     def real_name(self):
         for k in self.ORDER_REAL_NAME:
@@ -85,9 +82,9 @@ class DharmalibNote(BasicDharmalibNote):
             if m in self.metadata and self.metadata[m] is None:
                 del self.metadata[m]
 
-        for m in ("rōmaji", "pinyin", "sanskrit", "pāli"):
-            if m in self.metadata and self.metadata[m] is not None:
-                self.metadata[f"{m}_simplified"] = unidecode.unidecode(self.metadata[m])
+        # for m in ("rōmaji", "pinyin", "sanskrit", "pāli"):
+        #     if m in self.metadata and self.metadata[m] is not None:
+        #         self.metadata[f"{m}_simplified"] = unidecode.unidecode(self.metadata[m])
 
         if "hànzì" in self.metadata:
             print(self.metadata["hànzì"])
@@ -106,10 +103,10 @@ class DharmalibNote(BasicDharmalibNote):
                     self.metadata["pinyin"] = map_listorstring(
                         pinyin.get, self.metadata["hànzì"], delimiter=""
                     )
-                if "pinyin_simplified" not in self.metadata:
-                    self.metadata["pinyin_simplified"] = map_listorstring(
-                        pinyin.get, self.metadata["hànzì"], delimiter="", format="strip"
-                    )
+                # if "pinyin_simplified" not in self.metadata:
+                #     self.metadata["pinyin_simplified"] = map_listorstring(
+                #         pinyin.get, self.metadata["hànzì"], delimiter="", format="strip"
+                #     )
             except TypeError:
                 pass
 
@@ -159,11 +156,11 @@ class Person(DharmalibNote):
         "name",
         "french",
         "sanskrit",
+        "pinyin",
         "rōmaji",
-        "pinyin_simplified",
     ]
     PRESERVED_METADATA = [
-        "nom",
+        "name",
     ]
 
     TAG = "person"
