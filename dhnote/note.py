@@ -16,13 +16,43 @@ class ON_YAMLHandler(frontmatter.YAMLHandler):
 {content}
 """
 
+    def export(self, metadata: dict[str, object], **kwargs: object) -> str:
+        """
+        Export metadata as YAML. This uses yaml.SafeDumper by default.
+        """
 
-def split(self, text):
-    """
-    Split text into frontmatter and content
-    """
-    content, fm, _ = text.rsplit(self.FM_BOUNDARY, 2)
-    return fm, content
+        result = super().export(metadata, **kwargs).split("\n")
+
+        # Add 2 space before - for each identation
+        new_result = []
+        for l in result:
+            if l == "null":
+                continue
+            l_strip = l.lstrip()
+            if l_strip.startswith("-"):
+                l = "  " + l
+            new_result.append(l)
+
+        return "\n".join(new_result)
+
+    def split(self, text):
+        """
+        Split text into frontmatter and content
+        """
+        content, fm, _ = text.rsplit(self.FM_BOUNDARY, 2)
+        return fm, content
+
+    def format(self, post, **kwargs):
+        start_delimiter = kwargs.pop("start_delimiter", self.START_DELIMITER)
+        end_delimiter = kwargs.pop("end_delimiter", self.END_DELIMITER)
+        metadata = self.export(post.metadata, **kwargs)
+
+        return self.POST_TEMPLATE.format(
+            content=post.content.strip(),
+            metadata=metadata,
+            start_delimiter=start_delimiter,
+            end_delimiter=end_delimiter,
+        )
 
 
 def metadata_equals(m1, m2):
@@ -35,19 +65,6 @@ def metadata_equals(m1, m2):
         return s1 == s2
 
     return False
-
-
-def format(self, post, **kwargs):
-    start_delimiter = kwargs.pop("start_delimiter", self.START_DELIMITER)
-    end_delimiter = kwargs.pop("end_delimiter", self.END_DELIMITER)
-    metadata = self.export(post.metadata, **kwargs)
-
-    return self.POST_TEMPLATE.format(
-        content=post.content.strip(),
-        metadata=metadata,
-        start_delimiter=start_delimiter,
-        end_delimiter=end_delimiter,
-    )
 
 
 def merge_list(l1, l2):
@@ -165,11 +182,11 @@ class DHNote:
                 if isinstance(v, list):
                     newmetadata[f"{k}_simplified"] = list()
                     for _ in v:
-                        if _ != unidecode(_):
+                        if (_ is not None) and (_ != unidecode(_)):
                             newmetadata[f"{k}_simplified"].append(unidecode(_))
                     if not newmetadata[f"{k}_simplified"]:
                         del newmetadata[f"{k}_simplified"]
-                elif v != unidecode(v):
+                elif (v is not None) and (v != unidecode(v)):
                     newmetadata[f"{k}_simplified"] = unidecode(v)
         self.metadata.update(newmetadata)
 
@@ -252,6 +269,7 @@ class DHNote:
         #     self.save_with_merge(self.path, outfile=outfile)
         # else:
         if outfile is None:
-            outfile = open(os.path.join(self.path, self.filename), "wb")
-            # outfile.write(str(self))
-        frontmatter.dump(self, outfile, sort_keys=False)
+            with open(os.path.join(self.path, self.filename), "wb") as f:
+                frontmatter.dump(self, f, sort_keys=False)
+        else:
+            frontmatter.dump(self, outfile, sort_keys=False)

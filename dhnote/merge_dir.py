@@ -2,7 +2,7 @@ import logging
 import os
 import sys
 import argparse
-from obsidiannote import DHNote
+from dhnote import DHNote
 
 # Les options
 

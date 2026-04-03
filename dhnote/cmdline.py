@@ -54,12 +54,12 @@ logging.basicConfig(
 )
 
 
-TAG2CLASS = {
-    "person": Person,
-    "term": Term,
-    "compilation": Document,
-    "text": Document,
-    "koan": Koan,
+PATH2CLASS = {
+    "Persons": Person,
+    "Terms": Term,
+    "Compilations": Document,
+    "Texts": Document,
+    "Koans": Koan,
 }
 
 
@@ -68,18 +68,14 @@ def load_note():
         return Person(args.note, fromfile=True)
 
     try:
-        note = BasicDharmalibNote(args.note, fromfile=True)
+        BasicDharmalibNote(args.note, fromfile=True)
     except FileNotFoundError:
         logging.critical("Impossible de charger la note : fichier non trouvé")
-        #     print("Impossible de charger la note")
         sys.exit(1)
 
-    # except:
-    #     print("Impossible de charger la note")
-    #     sys.exit(1)
-
-    for k, v in TAG2CLASS.items():
-        if k == note.metadata["tags"] or k in note.metadata["tags"]:
+    for k, v in PATH2CLASS.items():
+        if k in args.note:
+            # if k == note.metadata["tags"] or k in note.metadata["tags"]:
             return v(args.note, fromfile=True)
     return Term(args.note, fromfile=True)
 

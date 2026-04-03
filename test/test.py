@@ -1,68 +1,39 @@
-import unittest
-from io import BytesIO
+from dhnote import DharmalibNote
 
-from obsidiannote import DHNote
+example = """
+A period of time following the death of Buddha when his followers, the arhats in particular,
+were able to successfully put his dharma (teachings) into practice and gain deliverance from
+suffering in the round of rebirth.  [@Sotoshu2023]
+
+[test](google.com)
+
+**Voir aussi :** [[mappo]]
 
 
-class DHNoteTests(unittest.TestCase):
-    def test_name(self):
-        n = DHNote("test")
-        self.assertEqual(n.filename, "test.md")
+[@Sotoshu2023]: https://www.sotozen.com/fre/library/glossary/individual.html?key=age_of_the_true_dharma
+"""
 
-    def test_path(self):
-        n = DHNote("test")
-        self.assertEqual(n.path, "./test.md")
-        n = DHNote("test", destdir="./toto/")
-        self.assertEqual(n.path, "./toto/test.md")
+example2 = """ Un essai \n\n"""
 
-    def test_save_output(self):
-        outfile = BytesIO()
 
-        n = DHNote("test")
-        n.metadata = {"a": 1, "b": 2, "c": [3, 4]}
-        n.content = "Rien.\n"
+def test_create_and_print():
+    n = DharmalibNote("test")
+    n.content = example
+    print(n)
 
-        n.save(outfile=outfile)
 
-        outfile.seek(0)
-        content = outfile.read()
-
-        with open("./test_save_output.md") as testfile:
-            testcontent = testfile.read().encode("utf-8")
-
-        self.assertEqual(content, testcontent)
-
-    def test_merge_metadata(self):
-        n = DHNote("test")
-        n.metadata = {"a": 1, "b": 2, "c": [3, 4], "d": [1, 2]}
-        n.content = "Rien.\n"
-
-        m = DHNote("test2")
-        m.metadata = {"a": 4, "e": 2, "c": 5, "d": [2, 4]}
-        m.content = "Rien.\n"
-
-        n.merge_metadata(m)
-
-        merged = {"a": [1, 4], "b": 2, "c": [3, 4, 5], "d": [1, 2, 4], "e": 2}
-
-        self.assertEqual(n.metadata, merged)
-
-    def test_merge(self):
-        n = DHNote("test")
-        n.metadata = {"a": 1, "b": 2, "c": [3, 4], "d": [1, 2]}
-        n.content = "Rien.\n"
-
-        m = DHNote("test2")
-        m.metadata = {"a": 4, "e": 2, "c": 5, "d": [2, 4]}
-        m.content = "Tout.\n"
-
-        n.merge(m)
-
-        merged = DHNote("test3")
-        merged.metadata = {"a": [1, 4], "b": 2, "c": [3, 4, 5], "d": [1, 2, 4], "e": 2}
-        merged.content = "Rien.\n\n---\n\nTout.\n"
-        self.assertEqual(n, merged)
+def test_references():
+    n = DharmalibNote("test")
+    n.content = example
+    n.extract_references()
+    print("==" * 50)
+    print(n)
+    print(n.references)
+    n.add_references()
+    print("==" * 50)
+    print(n)
 
 
 if __name__ == "__main__":
-    unittest.main()
+    test_create_and_print()
+    test_references()

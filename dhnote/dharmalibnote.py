@@ -3,10 +3,11 @@ import unidecode
 
 import pinyin
 import chinese_converter
+from datetime import datetime
 
 from .note import DHNote
 from .utils import (
-    H1regexp,
+    # H1regexp,
     map_listorstring,
     hanzi2name,
     first_defined_in_dict,
@@ -19,13 +20,10 @@ HEADER_ORDER = [
     "term",
     "french",
     "dates",
-    "date",
     "author",
     "master",
     "sanskrit",
-    "sanskrit_simplified",
     "hànzì",
-    "hànzì_simplified",
     "pinyin",
     "rōmaji",
     "Wades-Giles",
@@ -35,6 +33,7 @@ HEADER_ORDER = [
     "modified",
     "aliases",
     "tags",
+    "pubdate",
 ]
 
 
@@ -51,7 +50,7 @@ class DharmalibNote(BasicDharmalibNote):
         super().__init__(note, **kwargs)
 
         self.newfirst = None
-        self.addtotag(self.TAG)
+        # self.addtotag(self.TAG)
 
     def do_sort_header(self):
         # self.update_aliases()
@@ -110,7 +109,7 @@ class DharmalibNote(BasicDharmalibNote):
             except TypeError:
                 pass
 
-    KEYS_FOR_ALIASES = ("rōmaji_simplified", "pinyin_simplified", "sanskrit_simplified")
+    # KEYS_FOR_ALIASES = ("rōmaji_simplified", "pinyin_simplified", "sanskrit_simplified")
 
     def update_aliases(self):
         self.metadata["aliases"] = set()
@@ -182,12 +181,13 @@ class Person(DharmalibNote):
 
         if "hànzì" in self.metadata:
             self.metadata["pinyin"] = hanzi2name(self.metadata["hànzì"])
-            self.metadata["pinyin_simplified"] = hanzi2name(
-                self.metadata["hànzì"], format="strip"
-            )
+            # self.metadata["pinyin_simplified"] = hanzi2name(
+            #     self.metadata["hànzì"], format="strip"
+            # )
 
         if name := first_defined_in_dict(
-            self.metadata, ["name", "pinyin_simplified", "rōmaji_simplified"]
+            self.metadata,
+            ["name", "sanskrit", "pinyin", "rōmaji"],
         ):
             self.metadata["name"] = name
 
@@ -232,9 +232,9 @@ class Term(DharmalibNote):
         "français",
         "sanskrit",
         "rōmaji",
-        "pinyin_simplified",
+        "pinyin",
     ]
-    KEYS_FOR_ALIASES = ("rōmaji_simplified", "sanskrit_simplified")
+    KEYS_FOR_ALIASES = ("rōmaji", "sanskrit")
     TAG = "term"
     PRESERVED_METADATA = [
         "titre",
@@ -247,7 +247,7 @@ class Term(DharmalibNote):
         super().update_header()
 
         if terme := first_defined_in_dict(
-            self.metadata, ["terme", "rōmaji", "français", "pinyin_simplified"]
+            self.metadata, ["terme", "rōmaji", "français", "pinyin"]
         ):
             self.metadata["terme"] = terme
 
@@ -260,7 +260,7 @@ class Document(DharmalibNote):
     PRESERVED_METADATA = [
         "titre",
     ]
-    KEYS_FOR_ALIASES = ("rōmaji_simplified", "pinyin_simplified", "sanskrit_simplified")
+    KEYS_FOR_ALIASES = ("rōmaji", "pinyin", "sanskrit")
 
     def __init__(self, note, **kwargs):
         super().__init__(note, **kwargs)
